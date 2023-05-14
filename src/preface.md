@@ -1,6 +1,6 @@
 # Preface
 
-Google summer of code is an annual open source program and I am obliged to get selected for this twice in consecutive years.
+Google summer of code is an annual open source coding program and I am obliged to get selected for this, twice in consecutive years. But throughout reading the entire book, Please keep in mind about the fact that Open Source and Computer Science is the real big picture. All the things of which you would be thinking would matter are just a part of small pool. This does not make anyone more or less previlaged than other who was not into such places.
 
 Last Year, I have crafted a journey book which reflected my work, project and daily deeds and efforts with it. I don't know how many people read it or even if that helped or not. But, what I have found is a factor for personal growth and memories. It worked as a diary where I just flushed out my feelings. I never thought to craft any of my documentation work in public interest and this at some times feels so wrong. So, After all the nitty gritty learnings, I can assure that 
 
