@@ -21,9 +21,3 @@ Organization : Freifunk
 Project Name : Qaul.net
 Tech Stack : Rust, Go, Protobuf, Matrix APIs
 ```
-
-## Side Notes
-
-I am definately trying to make it minimalistic but there is something which I left as a child and now a days, I am again in love with the sport. It is all about WWE. So, You may find some sarcasms around the topic since, I am a huge fan and would give a tribute to my younger self for sticking with such a sport. I don't want to get on a debate of whether it is fake or real, But all I know is that as a kid, It helped me shape my personality in such a manner that I am bound to believe that all the meta-skills which I am possessing are the outcomes of being a WWE Fan.
-
-I at some places would love to claim the analogy of WWE 2 Times Heavyweight Championship taking a name of a wrestler whose ring name was "AJ Styles" and mutate it a little bit to "HJ Styles" which I used to call myself and even had a blog and youtube channel under same name(All deleted).
