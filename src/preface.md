@@ -19,5 +19,6 @@ Just adding neat information for my this year's project
 ```
 Organization : Freifunk
 Project Name : Qaul.net
+Mentor : Mathias Jud
 Tech Stack : Rust, Go, Protobuf, Matrix APIs
 ```
