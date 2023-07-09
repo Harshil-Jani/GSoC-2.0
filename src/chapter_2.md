@@ -48,7 +48,10 @@ Send "Hi" from qaul and it should first sense in matrix without our personal hum
 
 Next we can reverse engineer the above feature and do the same in qaul by sending a message in matrix room.
 
-### Version 1+ ###
+### Version 2 ###
+This just follows the Version 1 functionality wise but this should be implemented for 1-on-1 direct messages. In matrix and qaul both, private DMs are nothing but a group with only two members. We need to create a use case where we can send the message in groups by inviting a bot and the bot invite the user on other application and rest remains same.
+
+### Version 2+ ###
 After the above completions, We can think of double puppeting the bot so now our bot is not just `qaul-bridge` but a real username from the qaul node.
 
 ---
