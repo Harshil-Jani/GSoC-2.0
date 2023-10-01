@@ -22,7 +22,8 @@
 
 [Chaos Communication Camp](./chapter_12.md)
 [GSoC Lightening Talks 2023](./chapter_13.md)
-[Matrix Communication Camp](./chapter_14.md)
+[Matrix Summit 2023](./chapter_14.md)
 
 ---
+[Project Resources](./chapter16.md)
 [Closing Notes](./chapter_15.md)

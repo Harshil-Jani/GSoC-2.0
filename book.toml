@@ -3,4 +3,4 @@ authors = ["Harshil Jani"]
 language = "en"
 multilingual = false
 src = "src"
-title = "GSoC 2.0 @Freifunk, ft. Harshil Jani"
+title = "Writing a Matrix Bridge in Rust"

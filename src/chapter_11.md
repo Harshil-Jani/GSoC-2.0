@@ -42,7 +42,7 @@ if msg_sender != bot_matrix_id {
         room.send(content, None).await.unwrap();
     }
 
-    // on receiving !qaul in matrix, Send message
+    // on receiving !invite in matrix
     if msg_body.contains("!invite") {
         let matrix_user =
             room.get_member(&msg_sender).await.unwrap().unwrap();
