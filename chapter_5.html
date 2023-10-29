@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Version-1 : The real bridge - Writing a Matrix Bridge in Rust</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="preface.html">Preface</a></li><li class="chapter-item expanded affix "><a href="author.html">About Author</a></li><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="chapter_1.html">Community Bonding Period</a></li><li class="chapter-item expanded affix "><a href="chapter_2.html">Creating Concept for Project</a></li><li class="chapter-item expanded affix "><a href="chapter_3.html">Version-0 : Matrix Connect</a></li><li class="chapter-item expanded affix "><a href="chapter_4.html">Version-0+ : Concrete Plan</a></li><li class="chapter-item expanded affix "><a href="chapter_5.html" class="active">Version-1 : The real bridge</a></li><li class="chapter-item expanded affix "><a href="chapter_6.html">Version-1 : Configuring bridge</a></li><li class="chapter-item expanded affix "><a href="chatper_7.html">Version-2 : Group/Room Creation</a></li><li class="chapter-item expanded affix "><a href="chatper_8.html">Version-2 : DM from qaul to matrix</a></li><li class="chapter-item expanded affix "><a href="chapter_9.html">Version-2 : Invite/Remove from group</a></li><li class="chapter-item expanded affix "><a href="chapter_10.html">Version-2 : Sending/Receiving files</a></li><li class="chapter-item expanded affix "><a href="chapter_11.html">Version-2 : Polishing with user menu</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="chapter_12.html">Chaos Communication Camp</a></li><li class="chapter-item expanded affix "><a href="chapter_13.html">GSoC Lightening Talks 2023</a></li><li class="chapter-item expanded affix "><a href="chapter_14.html">Matrix Summit 2023</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="chapter16.html">Project Resources</a></li><li class="chapter-item expanded affix "><a href="chapter_15.html">Closing Notes</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Writing a Matrix Bridge in Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="version-1--the-real-bridge"><a class="header" href="#version-1--the-real-bridge">Version-1 : The real bridge</a></h1>
+<h2 id="receiving-message-from-matrix-in-qaul"><a class="header" href="#receiving-message-from-matrix-in-qaul">Receiving message from Matrix in Qaul</a></h2>
+<p>In the Version-0 we have already a functionality where we were able to listen into the incoming Matrix messages and for this version, We are not just replying back to matrix but instead storing the message from matrix inside of our local peer network.</p>
+<p>To do this, We were listening to matrix messages in qaul using <code>on_room_message</code> function as seen in Version 0. Now we are extending it with another function <code>send_qaul</code> which collects the message content and message sender and sends the information in the qaul where we send it ahead inside of the broadcast feed.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn on_room_message(event: SyncMessageEvent&lt;MessageEventContent&gt;, room: Room) {
+    ...
+    let msg_text = format!(&quot;{} : {}&quot;, msg_sender, msg_body);
+    send_qaul(msg_text, room.room_id());
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn send_qaul(msg_text: String, room_id: &amp;RoomId) {
+    // Protobuff for feed messages
+    let proto_message = proto::Feed {
+        message: Some(proto::feed::Message::Send(proto::SendMessage {
+            content: msg_text,
+        })),
+    };
+
+    // Encode message
+    let mut buf = Vec::with_capacity(proto_message.encoded_len());
+    proto_message
+        .encode(&amp;mut buf)
+        .expect(&quot;Vec&lt;u8&gt; provides capacity as needed&quot;);
+    // Send the message in qaul feed
+    Rpc::send_message(buf, super::rpc::proto::Modules::Feed.into(), &quot;&quot;.to_string());
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>This registers all the message in our feed. Now this closes our part of communication from a Matrix Room into the Qaul feed.</p>
+<h2 id="sending-from-qaul-to-matrix"><a class="header" href="#sending-from-qaul-to-matrix">Sending from Qaul to Matrix</a></h2>
+<p>This was interesting part since we had to change design pattern multiple times in order to keep things simple and less fancy. The very first attempt was to send the message inside of the matrix room when someone sends the feed message from the CLI. </p>
+<p>In qaul you can send the RPC feed message from CLI via <code>feed send {msg}</code> and so what I did is that where the RPC was listening for the qaul feed message I have implemented a function which would send the message in matrix.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn matrix_send(message: String) {
+    // Get the Room based on RoomID from the client information
+    let matrix_client = MATRIX_CLIENT.get();
+    let room_id = RoomId::try_from(&quot;!nGnOGFPgRafNcUAJJA:matrix.org&quot;).unwrap();
+    let room = matrix_client.get_room(&amp;room_id).unwrap();
+    // Check if the room is already joined or not
+    if let Room::Joined(room) = room {
+        // Build the message content to send to matrix
+        let content = AnyMessageEventContent::RoomMessage(MessageEventContent::text_plain(
+            message,
+        ));
+ 
+        let rt = Runtime::new().unwrap();
+        rt.block_on(async {
+            // Sends messages into the matrix room
+            room.send(content, None).await.unwrap();
+        });
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And we send the message for each incoming feed message which is decoded in RPC as below.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Decodes received protobuf encoded binary RPC message
+/// of the feed module.
+pub fn rpc(data: Vec&lt;u8&gt;) {
+    match proto::Feed::decode(&amp;data[..]) {
+        Ok(feed) =&gt; {
+            match feed.message {
+                Some(proto::feed::Message::Received(proto_feedlist)) =&gt; {
+                    // print all messages in the feed list
+                    for message in proto_feedlist.feed_message {
+                       ...
+                       // Send message to matrix
+                            Self::matrix_send(message.content);
+                        }      
+                    }
+                }
+                _ =&gt; {
+                    log::error!(&quot;unprocessable RPC feed message&quot;);
+                },
+            }    
+        },
+        Err(error) =&gt; {
+            log::error!(&quot;{:?}&quot;, error);
+        },
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>The most challanging part for this to happen is with the matrix configuration object state which we need in <code>matrix_send</code> because you need to information about the account which would send the message and if it is joined in the room or not ? We had real troubles working with the client to be shared from relay_bot into our feed since If we decide to change the RPC structure to take configuration as object then it may need a major version tweak and would break other binaries which don't take this third argument. We were more concerned about not changing the <code>libqaul</code> and avoid it as far as we can.</p>
+<p>The best solution to this was suggested very correctly by MathJud and this really helped me solve this chicken and Egg problem. The solution was about using a global storage object stack. So we store the configuration from Matrix Client inside of a storage </p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Setup a storage object for the Client to make it available globally
+pub static MATRIX_CLIENT: state::Storage&lt;Client&gt; = state::Storage::new();
+
+async fn login(
+    homeserver_url: &amp;str,
+    username: &amp;str,
+    password: &amp;str,
+) -&gt; Result&lt;(), matrix_sdk::Error&gt; {
+   ...
+    MATRIX_CLIENT.set(client.clone());
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>and now we are able to access this.</p>
+<h2 id="serious-design-issue"><a class="header" href="#serious-design-issue">Serious design issue</a></h2>
+<p>Remember, Earlier I said we were trying to send message to matrix only when we write a command <code>feed send {msg}</code>. But what if the user on our peer network sends this message and is not from the bot account ? This was a serious compatibility issue about which I was unaware. My mentor actually figured this out and then we came to discussion that for this to happen, We may need to constantly listen for all incoming qaul message and send as soon as we receive a message instead of when we send it from CLI. Luckily, Receiving of message also takes place via RPC. And so the code was at right place but only thing was to listen for the message. </p>
+<p>To this front, I have created a ticker which constantly looks every 2 seconds if there is any incoming message from qaul or not ? If there is a message then we can send it to qaul. But it had a new problem. Now, It sends all the messages from qaul because whenever we restart the client, the last_index goes back to 0. </p>
+<p>The solution to this problem was a configuration file.  Next I went to design a configuration file which takes certain things as input and keep track of last message. In next chapter I will go about how I made a configuration file to work with qaul.</p>
+<p>Another challenging part was that if you look in <code>matrix_send</code> The sending of message to matrix is an asyncronous callback and thus we would need to await it. Again In order to await, We need matrix_rpc function as async. Which would further require the top level RPC function to be async and this would again break the libqaul for other binaries. So, MathJud again helped me with the issue and gave me a link to very good blog post and I read it and integrated the tokio runtime block async in the function. I would also say that we tried async block but since matrix is a tokio async so standard async block was not enough.</p>
+<p>Link to async blog : <a href="https://greptime.com/blogs/2023-03-09-bridging-async-and-sync-rust">Async and Sync in Rust</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="chapter_6.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="chapter_6.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

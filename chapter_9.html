@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Version-2 : Invite/Remove from group - Writing a Matrix Bridge in Rust</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="preface.html">Preface</a></li><li class="chapter-item expanded affix "><a href="author.html">About Author</a></li><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="chapter_1.html">Community Bonding Period</a></li><li class="chapter-item expanded affix "><a href="chapter_2.html">Creating Concept for Project</a></li><li class="chapter-item expanded affix "><a href="chapter_3.html">Version-0 : Matrix Connect</a></li><li class="chapter-item expanded affix "><a href="chapter_4.html">Version-0+ : Concrete Plan</a></li><li class="chapter-item expanded affix "><a href="chapter_5.html">Version-1 : The real bridge</a></li><li class="chapter-item expanded affix "><a href="chapter_6.html">Version-1 : Configuring bridge</a></li><li class="chapter-item expanded affix "><a href="chatper_7.html">Version-2 : Group/Room Creation</a></li><li class="chapter-item expanded affix "><a href="chatper_8.html">Version-2 : DM from qaul to matrix</a></li><li class="chapter-item expanded affix "><a href="chapter_9.html" class="active">Version-2 : Invite/Remove from group</a></li><li class="chapter-item expanded affix "><a href="chapter_10.html">Version-2 : Sending/Receiving files</a></li><li class="chapter-item expanded affix "><a href="chapter_11.html">Version-2 : Polishing with user menu</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="chapter_12.html">Chaos Communication Camp</a></li><li class="chapter-item expanded affix "><a href="chapter_13.html">GSoC Lightening Talks 2023</a></li><li class="chapter-item expanded affix "><a href="chapter_14.html">Matrix Summit 2023</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="chapter16.html">Project Resources</a></li><li class="chapter-item expanded affix "><a href="chapter_15.html">Closing Notes</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Writing a Matrix Bridge in Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="version-2--invite-and-remove-from-group"><a class="header" href="#version-2--invite-and-remove-from-group">Version-2 : Invite and remove from group</a></h1>
+<p>We have thought of invitation and removal of the qaul users from the matrix chat. Now since the matrix room was open for participation by multiple members we were more inclined to set restrictions on who can <code>!invite</code> or <code>!remove</code> the members from the matrix chat. </p>
+<p>Architecturally, We implemented that the users who have Admin Powers in Matrix can only perform the invitation and removal commands. This would restrict the unmonitered chaos which would happen if we allow everyone to invite or remove.</p>
+<p>In order to invite a member you can write the command in matrix room as 
+<code>!invite {peer-id of qaul user}</code></p>
+<p>The code from matrix side looks as below :</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// on receiving !invite in matrix
+if msg_body.contains(&quot;!invite&quot;) {
+    let matrix_user =
+        room.get_member(&amp;msg_sender).await.unwrap().unwrap();
+    // Check for Admin Powers
+    if matrix_user.power_level() == 100 {
+        let mut iter = msg_body.split_whitespace();
+        let _command = iter.next().unwrap();
+        let qaul_user_id = iter.next().unwrap().to_string();
+        let room_id_string = room.room_id().to_string();
+        let sender_string = msg_sender.to_string();
+        let request_id = format!(
+            &quot;invite#{}#{}#{}&quot;,
+            room_id_string, sender_string, qaul_user_id
+        );
+        log::info!(&quot;{}&quot;, request_id);
+        // Create group only if the mapping between a qaul grp and matrix room doesn't exist.
+        // If it exist then please check if user already exist or not. If not then invite
+        let config = MATRIX_CONFIG.get().write().unwrap().clone();
+        let room_id = room.room_id();
+        let qaul_group_id: Option&lt;Uuid&gt; = find_key_for_value(
+            config.room_map.clone(),
+            room_id.clone(),
+        );
+        if qaul_group_id == None {
+            group::Group::create_group(
+                format!(&quot;{}&quot;, msg_sender.to_owned()).to_owned(),
+                request_id,
+            );
+            // Acknowledge about sent invitation to qaul user.
+            let content = AnyMessageEventContent::RoomMessage(
+            MessageEventContent::text_plain(&quot;User has been invited. Please wait until user accepts the invitation.&quot;),
+        );
+            room.send(content, None).await.unwrap();
+        } else {
+            // Get the list of users who are members to the given room.
+            group::Group::group_info(
+                chat::Chat::uuid_string_to_bin(
+                    qaul_group_id.unwrap().to_string(),
+                )
+                .unwrap(),
+                request_id,
+            );
+            log::info!(&quot;The Room Mapping already exist for this room&quot;);
+            // Else Invite the given user in same mapping of the matrix room.
+        }
+    } else {
+        // Not Admin
+        let content = AnyMessageEventContent::RoomMessage(
+            MessageEventContent::text_plain(
+                &quot;Only Admins can perform this operation.&quot;,
+            ),
+        );
+        room.send(content, None).await.unwrap();
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>As of now, In qaul we do not have request numbering mechanism, so we don't know that which request was received first and others following. There may be chances that the sequence would be much different in case of traffic on matrix servers and qaul peer network. So we changed our libqaul code a bit to support the id based recognition since we were using RPC. In case of all the invite request the RPC request id is given as <code>#invite#matrix_room_id#msg_sender_id#qaul_user_peer_id</code></p>
+<p>This would then be decoded on the RPC Response.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Receiving GroupInfoResponse which we are polling every 10 ms.
+Some(proto::group::Message::GroupInfoResponse(group_info_response)) =&gt; {
+    let group_id = uuid::Uuid::from_bytes(
+        group_info_response.group_id.try_into().unwrap(),
+    );
+
+    if request_id != &quot;&quot; {
+        // reqeust_id = qaul_user_id#room_id
+        let mut iter = request_id.split('#');
+        let cmd = iter.next().unwrap();
+        log::info!(&quot;cmd : {}&quot;, cmd);
+        let room_id = iter.next().unwrap();
+        log::info!(&quot;room : {}&quot;, room_id);
+        let _sender = iter.next().unwrap();
+        log::info!(&quot;sender : {}&quot;, _sender);
+        let qaul_user_id = iter.next().unwrap();
+        log::info!(&quot;qaul user : {}&quot;, qaul_user_id);
+
+        if cmd == &quot;invite&quot; {
+            let grp_members = group_info_response.members.clone();
+            let user_id =
+                chat::Chat::id_string_to_bin(qaul_user_id.to_owned()).unwrap();
+            let mut all_members = Vec::new();
+            for member in grp_members {
+                all_members.push(member.user_id);
+            }
+            if all_members.contains(&amp;user_id) {
+                matrix_rpc(
+                    &quot;User already exist in the qaul group&quot;.to_owned(),
+                    RoomId::try_from(room_id).unwrap(),
+                );
+            } else {
+                // Invite user into this group.
+                let users = QAUL_USERS.get().read().unwrap();
+                let user_name = chat::Chat::find_user_for_given_id(
+                    users.clone(),
+                    qaul_user_id.to_owned(),
+                )
+                .unwrap();
+                matrix_rpc(
+                    format!(&quot;User {} has been invited. Please wait until user accepts the invitation.&quot;, 
+                    user_name
+                ).to_owned(), RoomId::try_from(room_id).unwrap());
+                matrix_rpc(&quot;User has been invited. Please wait until user accepts the invitation.&quot;.to_owned(), RoomId::try_from(room_id).unwrap());
+                Self::invite(
+                    chat::Chat::uuid_string_to_bin(group_id.to_string())
+                        .unwrap(),
+                    user_id,
+                );
+            }
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Similarly we do have operations for removal. Do checkout our codebase to understand the implementations at their present state.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chatper_8.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="chapter_10.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chatper_8.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="chapter_10.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

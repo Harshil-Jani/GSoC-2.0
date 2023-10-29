@@ -1,0 +1,260 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Version-2 : Sending/Receiving files - Writing a Matrix Bridge in Rust</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="preface.html">Preface</a></li><li class="chapter-item expanded affix "><a href="author.html">About Author</a></li><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="chapter_1.html">Community Bonding Period</a></li><li class="chapter-item expanded affix "><a href="chapter_2.html">Creating Concept for Project</a></li><li class="chapter-item expanded affix "><a href="chapter_3.html">Version-0 : Matrix Connect</a></li><li class="chapter-item expanded affix "><a href="chapter_4.html">Version-0+ : Concrete Plan</a></li><li class="chapter-item expanded affix "><a href="chapter_5.html">Version-1 : The real bridge</a></li><li class="chapter-item expanded affix "><a href="chapter_6.html">Version-1 : Configuring bridge</a></li><li class="chapter-item expanded affix "><a href="chatper_7.html">Version-2 : Group/Room Creation</a></li><li class="chapter-item expanded affix "><a href="chatper_8.html">Version-2 : DM from qaul to matrix</a></li><li class="chapter-item expanded affix "><a href="chapter_9.html">Version-2 : Invite/Remove from group</a></li><li class="chapter-item expanded affix "><a href="chapter_10.html" class="active">Version-2 : Sending/Receiving files</a></li><li class="chapter-item expanded affix "><a href="chapter_11.html">Version-2 : Polishing with user menu</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="chapter_12.html">Chaos Communication Camp</a></li><li class="chapter-item expanded affix "><a href="chapter_13.html">GSoC Lightening Talks 2023</a></li><li class="chapter-item expanded affix "><a href="chapter_14.html">Matrix Summit 2023</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="chapter16.html">Project Resources</a></li><li class="chapter-item expanded affix "><a href="chapter_15.html">Closing Notes</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Writing a Matrix Bridge in Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="version-2--sending-files-and-receiving-files"><a class="header" href="#version-2--sending-files-and-receiving-files">Version-2 : Sending files and receiving files</a></h1>
+<p>Another part of the major bridging features was a choice between puppeting and choosing to work for File exchanges. The file communication was more important since we already gave the users their name in the message as identifier. Puppetting was on the less priorty use case. So we decided to move ahead with the file messages.</p>
+<p>From Matrix it was straightforward that you upload a file in room. It gets encoded into MxcURI (Matrix File Specific URL). From this, We got an helper function from SDK to download the file on the device which would Run the bridge (Assume RPi). Now, This would first download the file and send it further to target peer device (Your Phone).</p>
+<p>Once it completely sends the file, We delete it from the bridge host (RPi).
+Well, There can be debate on why would we not just pass the MxcURI directly to target device and decode it on bridge (which is not secure way to do this). This when I have asked to my mentor, He says that Qaul Application has bunch of version keeping. If we change any single part of code in qaul then it possible means that the new users have to upgrade the application to use it. Since Qaul is application which goes in cases of internet shutdowns and not for regular use, This would not be a great way to introduce it. And the bridge would be part of a local network too. So, It does not harm the security.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>MessageType::File(FileMessageEventContent {
+    body: file_name,url: file_url, .. }) =&gt; {
+    // We don't consider message in matrix from the bot
+    // since it would be the response being sent from qaul.
+    if msg_sender != bot_matrix_id {
+        // generate the File Request Body
+        let request = MediaRequest {
+            format: MediaFormat::File,
+            media_type: MediaType::Uri(file_url.as_ref().unwrap().clone()),
+        };
+
+        // get the bytes data decrypted from the matrix into qaul
+        let client = MATRIX_CLIENT.get();
+        let file_bytes =
+            client.get_media_content(&amp;request, true).await.unwrap();
+
+        // Save the file to local storage
+        let path_string = Storage::get_path();
+        let path = Path::new(path_string.as_str());
+        let output_file_path = path.join(file_name);
+        let mut file = std::fs::File::create(output_file_path).unwrap();
+        let _ = file.write_all(&amp;file_bytes);
+        log::info!(&quot;File Saved Successfully&quot;);
+
+        // Send the file to qaul world
+        send_file_to_qaul(
+            room.room_id(),
+            file_name,
+            format!(&quot;{} by {}&quot;, file_name, msg_sender),
+        );
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>When we want to send the file from qaul to matrix we have many helper functions written in bridge which can help to analyze the chat contents and files and then keep track of their upload status. Based on it, It will help us to send file to matrix from qaul which is reverse communication of what you have seen above.</p>
+<p>You can refer <code>chat.rs</code> and <code>chatfile.rs</code> for the exact codewise implementation of handling files in chat.</p>
+<p>Here is code to review how we worked on the entire logic from bridge to matrix.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn send_file_to_matrix(file_path: String, room_id: &amp;RoomId, extension: String, file_name: String) {
+    let path = std::env::current_dir().unwrap();
+    let mut storage_path = path.as_path().to_str().unwrap().to_string();
+    let user = BOT_USER_ACCOUNT_ID.get();
+    storage_path.push_str(&amp;format!(&quot;/{}&quot;, user));
+    storage_path.push_str(&amp;format!(&quot;/files/{}&quot;, file_path));
+
+    let matrix_client = MATRIX_CLIENT.get();
+    let room = matrix_client.get_room(&amp;room_id).unwrap();
+    if let Room::Joined(room) = room {
+        // Build the message content to send to matrix
+        let rt = Runtime::new().unwrap();
+        rt.block_on(async {
+            // Sends messages into the matrix room
+            log::info!(&quot;{}&quot;, storage_path);
+            let file_buff = PathBuf::from(storage_path.clone());
+            let mut buff = File::open(file_buff).unwrap();
+            let mut content_type: &amp;Mime = &amp;STAR_STAR;
+            log::info!(&quot;{}&quot;, extension);
+            match extension.as_str() {
+                &quot;jpg&quot; | &quot;png&quot; | &quot;jpeg&quot; | &quot;gif&quot; | &quot;bmp&quot; | &quot;svg&quot; =&gt; content_type = &amp;mime::IMAGE_STAR,
+                &quot;pdf&quot; =&gt; content_type = &amp;mime::APPLICATION_PDF,
+                _ =&gt; {
+                    log::info!(&quot;Please raise a github ticket since we don't allow this file-type.&quot;)
+                }
+            }
+            room.send_attachment(&amp;file_name, content_type, &amp;mut buff, None)
+                .await
+                .unwrap();
+        });
+        // Delete the file from bot server.
+        log::info!(&quot;Deleting file from : {}&quot;, storage_path);
+        fs::remove_file(storage_path).expect(&quot;could not remove file&quot;);
+    };
+<span class="boring">}
+</span></code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_9.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="chapter_11.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_9.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="chapter_11.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
