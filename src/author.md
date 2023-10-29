@@ -24,4 +24,5 @@ Special Mentions (maybe we talked the least but I would always respect real chad
 - Flying Cakes (Introducing me into Linux and Rust Ecosystems)
 - Wired Hikari (Spectating him for SoB and NixOS helped me a lot)
 - Rahul Kulkarni (CTO Samagra for exposing me about how to think technically over any product and win in market)
+- Nazmul Idris (Helped me a lot to contribute on `r3bl_rs_utils` and talking about rust tools and open source VCs)
 - Sunidhi Sachan (Moral support)
